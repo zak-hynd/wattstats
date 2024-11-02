@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { getGreeting } from '../apiClient.ts'
 import { useQuery } from '@tanstack/react-query'
+import TestStuff from './TestStuff.tsx'
 
 const Home = () => {
   const [count, setCount] = useState(0)
@@ -15,6 +16,8 @@ const Home = () => {
 
   return (
     <>
+      <TestStuff></TestStuff>
+      
       {count}
       <h1 className="text-3xl font-bold underline">{greeting}</h1>
       {isError && (
