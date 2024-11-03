@@ -25,6 +25,9 @@ export interface TieredPowerPlan extends PowerPlan {
     tieredRates:  TieredRate[]
 }
 
+export interface ParsedData {
+    [key: string]: string | number
+}
 
 //example
 // const powerPlan = {

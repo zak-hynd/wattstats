@@ -1,17 +1,18 @@
-import { UsageData } from "../models/models";
+import { UsageData, ParsedData } from "../models/models";
 
-export const meltCSVData = (data: any[]): UsageData[] => {
+
+export const meltCSVData = (data: ParsedData[]): UsageData[] => {
     const melted: UsageData[] = [];
     const headers = Object.keys(data[0]) //assumes first row is header row
     const dateColumn = headers.find(header =>  header.toLowerCase().includes('date'));
 
-    if(!dateColumn) {
-        console.error('Date column not found.');
+    if(!dateColumn || typeof  dateColumn !== 'string') {
+        console.error('Incompatable file type. Usable date column not found.');
         return [];
     }
-
+    
     data.forEach(row => {
-        const [year, month, day] = row[dateColumn].split('-').map(Number)
+        const [year, month, day] = (row[dateColumn] as string).split('-').map(Number)
         //^^ assumes YYYY-MM-DD format
 
         headers.forEach(column => { 
@@ -20,7 +21,7 @@ export const meltCSVData = (data: any[]): UsageData[] => {
                 const [hour, minute] = getIntervalMidpoint(column)
                 melted.push({
                     year, month, day, hour, minute,
-                    usage: parseFloat(row[column])
+                    usage: parseFloat(row[column] as string)
                 })
             }
         })
@@ -32,13 +33,12 @@ export const meltCSVData = (data: any[]): UsageData[] => {
 
 //-------EK files
 //the following expect electric-kiwi structured time intervals
-const isTimeInterval = (header: string) => {
+export const isTimeInterval = (header: string) => {
     const timeIntervalPattern = /^\d{1,2}:\d{2}(am|pm)-\d{1,2}:\d{2}(am|pm)$/
     return timeIntervalPattern.test(header)
 }
-// console.log(isTimeInterval('asfasf'))
 
-const getIntervalMidpoint = (header: string): [number, number] => {
+export const getIntervalMidpoint = (header: string): [number, number] => {
     
     const startTime = header.split('-')[0]
     const isPM = startTime.includes('pm')

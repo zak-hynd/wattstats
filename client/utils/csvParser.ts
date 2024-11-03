@@ -5,7 +5,7 @@ interface ParsedData {
 }
 
 export const parseCSV = (data: string): ParsedData[] => {
-    console.log(data.slice(0, 200))
+    // console.log(data.slice(0, 200))
     return parse<ParsedData>(data, {
         header:  true
     }).data
