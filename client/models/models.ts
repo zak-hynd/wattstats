@@ -1,3 +1,13 @@
+export interface UsageStats {
+    total: number
+    mean: number
+    max: number
+    q3: number
+    median: number
+    q1: number
+    min: number
+  }
+
 export interface UsageData {
     year: number
     month: number

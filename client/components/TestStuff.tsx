@@ -5,24 +5,26 @@ import { parseCSV } from "../utils/csvParser"
 // import { readBrowserFile, readCSVFile } from "../utils/fileReader"
 import testData from '../testEK2.csv?raw'  // The ?raw query tells Vite to import as string
 import { meltCSVData, isTimeInterval, getIntervalMidpoint} from '../utils/meltData'
+import { calcTotalUsage } from "../utils/dataAnalysis"
+import { analyseUsageData } from "../utils/danfo"
 
 function TestStuff() {
     useEffect(() => {
-      // Now you can directly work with your data
-    //   console.log('Raw CSV:', testData)
+
+      //   console.log('Raw CSV:', testData)
 
 
       const rex = `Date,12:01am-12:30am,12:31am-1:00am
 2024-09-28,0.3,0.2,,
 2024-09-29,0.1,0.5,,`
-      const bob = [{'a': 1,  'b': 2}, {'a': 3, 'b': 4}]
+      // const bob = [{'a': 1,  'b': 2}, {'a': 3, 'b': 4}]
 
-      const parsed = parseCSV(rex)
-     
-      console.log( meltCSVData(parsed))
-    
-    // console.log(meltCSVData(parsed))
+      // const parsed = parseCSV(rex)
+      // console.log(meltCSVData(parseCSV(rex)))
+      console.log(analyseUsageData(meltCSVData(parseCSV(rex))))
 
+      // console.log(meltCSVData(parseCSV(testData)))
+      // console.log( calcTotalUsage(meltCSVData(parseCSV(rex))))
 
     }, [])
   
