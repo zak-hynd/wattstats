@@ -1,6 +1,6 @@
 import { UsageData, ParsedData } from "../models/models";
 
-
+//original melt function
 export const meltCSVData = (data: ParsedData[]): UsageData[] => {
     const melted: UsageData[] = [];
     const headers = Object.keys(data[0]) //assumes first row is header row

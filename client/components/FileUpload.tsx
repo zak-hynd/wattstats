@@ -1,30 +1,33 @@
-import React, { useState } from 'react';
-import { parseCSV } from '../utils/csvParser';
-import { readBrowserFile } from '../utils/fileReader';
+import React, { useState } from 'react'
+import { DataFrame } from 'danfojs/dist/danfojs-base'
+import { readBrowserFile } from '../utils/fileReader'
 
-function FileUpload() {
-  const [fileData, setFileData] = useState(null);
+interface FileUploadProps {
+  onDataLoaded: (df: DataFrame) => void
+}
+
+export function FileUpload({ onDataLoaded }: FileUploadProps) {
+  const [df, setDf] = useState<DataFrame | null>(null)
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+    const file = event.target.files?.[0]
     if (file) {
       try {
-        const csvString = await readBrowserFile(file);
-        const parsedData = parseCSV(csvString);
-        setFileData(parsedData);
-        console.log('Parsed CSV data:', parsedData);
+        const csvString = await readBrowserFile(file)
+        const df = new DataFrame(csvString)
+        onDataLoaded(df)
       } catch (error) {
-        console.error('Error reading file:', error);
+        console.error('Error reading file:', error)
       }
     }
-  };
+  }
 
   return (
     <div>
       <input type="file" accept=".csv" onChange={handleFileUpload} />
-      {fileData && <p>File uploaded and parsed successfully!</p>}
+      {df && <p>File uploaded successfully.</p>}
     </div>
-  );
+  )
 }
 
-export default FileUpload;
+export default  FileUpload
