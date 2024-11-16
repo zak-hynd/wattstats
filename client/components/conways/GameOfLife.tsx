@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import createBoard from '../conways/utils/createBoard'
 import nextBoard from '../conways/utils/nextBoard'
 import { Board, life, gosper } from '../conways/utils/conwaysBoards'
+import {Link} from 'react-router-dom'
 
 const refreshInterval = 100; // milliseconds
 const size = 40;
@@ -63,6 +64,8 @@ const GameOfLife: React.FC = () => {
   }, [])
 
 return (
+  <>
+    <Link to="/">home</Link>
     <div className="bg-[#331E36] text-[#F9E7E7] p-4 flex">
         <div className="flex flex-col items-start mr-4">
             <h1 className="text-2xl font-bold text-start mb-4">
@@ -73,14 +76,8 @@ return (
                 onClick={toggleGame} 
                 className="bg-[#F9E7E7] text-[#A33B20] p-2 rounded hover:bg-[#A33B20] hover:text-[#F9E7E7]"
                 >
-                Play|Pause
+                ⏯
                 </button>
-                {/* <button 
-                onClick={stopGame} 
-                className="bg-[#F9E7E7] text-[#A33B20] p-2 rounded hover:bg-[#A33B20] hover:text-[#F9E7E7]"
-                >
-                Stop
-                </button> */}
                 <button 
                 onClick={() => updateBoard('1')} 
                 className="bg-[#F9E7E7] text-[#A33B20] p-2 rounded hover:bg-[#A33B20] hover:text-[#F9E7E7]"
@@ -91,7 +88,7 @@ return (
                 onClick={() => updateBoard('2')} 
                 className="bg-[#F9E7E7] text-[#A33B20] p-2 rounded hover:bg-[#A33B20] hover:text-[#F9E7E7]"
                 >
-                Gosper&apos;s Gliders
+                Gosper&apos;s
                 </button>
                 <button 
                 onClick={() => updateBoard('3')} 
@@ -100,20 +97,21 @@ return (
                 Random Seed
                 </button>
             </div>
-            </div>
-            <div id="board" className="flex flex-col mt-4">
-                {board.map((row, rowIndex) => (
-                <div key={rowIndex} className="flex">
-                    {row.map((cell, colIndex) => (
-                    <div
-                        key={colIndex}
-                        className={`w-4 h-4 m-0.5 rounded ${cell ? 'bg-[#B07BAC]' : 'bg-transparent'}`}
-                    />
-                    ))}
-                </div>
-                ))}
-            </div>
-        </div>
+          </div>
+          <div id="board" className="flex flex-col mt-4" onClick={toggleGame} aria-hidden="true" >
+              {board.map((row, rowIndex) => (
+              <div key={rowIndex} className="flex">
+                  {row.map((cell, colIndex) => (
+                  <div
+                      key={colIndex}
+                      className={`w-3 h-3 m-0.5 rounded ${cell ? 'bg-[#B07BAC]' : 'bg-transparent'}`}
+                  />
+                  ))}
+              </div>
+            ))}
+          </div>
+      </div>
+    </>
   )
 }
 export default GameOfLife
